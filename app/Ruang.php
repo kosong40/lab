@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ruang extends Model
 {
-    protected $table 	= 'ruangan';
+    protected $table 	= 'ruang';
     public $timestamps 	= false;
     protected $guarded 	= [];
 }

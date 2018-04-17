@@ -3,9 +3,14 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {{-- bootstrap --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    {{-- buat sidebarnya --}}
     <link rel="stylesheet" type="text/css" href="{{url("bs/css/admin.css")}}">
     <title>Admin</title>
+    {{-- ikon web --}}
+    <link rel="shortcut icon" type="image/x-icon" href="">
+    <link rel="stylesheet" type="text/css" href="{{url("bs/fa/css/font-awesome.min.css")}}">
 </head>
 <body>
     <div class="wrapper">
@@ -18,14 +23,18 @@
                 <li>
                     <a href="/admin/user">
                         <i class="glyphicon glyphicon-user"></i>
-                        User
+                        Peminjam
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/alat" title="">
+                    <a href="#lab" data-toggle="collapse" aria-expanded="false">
                         <i class="glyphicon glyphicon-wrench"></i>
-                        Alat Lab
+                        Peralatan Lab
                     </a>
+                    <ul class="collapse list-unstyled" id="lab">
+                        <li><a href="/admin/alat"><i class="glyphicon glyphicon-briefcase"></i>Alat</a></li>
+                        <li><a href="/admin/meja"><i class="fa fa-table"></i>Meja</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="/admin/ruang">
@@ -37,7 +46,7 @@
                    <a href="/admin/pengaturan">
                        <i class="glyphicon glyphicon-cog"></i>
                        Pengaturan
-                   </a> 
+                   </a>
                 </li>
                 <li>
                     <a href="#keluar" data-toggle="collapse" aria-expanded="false">
@@ -49,13 +58,17 @@
                         <li><a href="/admin/home"><i class="glyphicon glyphicon-remove"></i>Tidak</a></li>
                     </ul>
                 </li>
-            </ul>            
+            </ul>
         </nav>
         <div id="content">
             <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn">
                 <i class="glyphicon glyphicon-th-list"></i>
                 Geser
             </button>
+            <a type="button" href="/admin/home" class="btn btn-info">
+                <i class="glyphicon glyphicon-home"></i>
+                Halaman Utama
+            </a>
             <!-- isi konten -->
             @yield('konten')
         </div>

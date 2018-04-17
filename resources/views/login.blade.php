@@ -35,8 +35,15 @@ Login
 	</div>
 </div>
 @section('alert')
-	{!!$alert!!}
-@endsection
+	@if (session('login'))
+	    <div class="alert alert-danger">
+	        <p align="center">{{ session('login') }}</p>
+	    </div>
+    @elseif(session('belum'))
+    	<div class="alert alert-warning">
+	        <p align="center">{{ session('belum') }}</p>
+	    </div>
+	@endif
 @endsection
 @section('login')
 

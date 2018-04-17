@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Peminjam;
 use App\Ruang;
+use App\Alat;
+use App\viewRuang;
+use App\Posting;
+use App\praktikum;
 
 
 
@@ -13,22 +17,28 @@ class utamaController extends Controller
 {
     public function index()
     {
-    	// $coba = DB::select("SELECT * FROM peminjam");
-        // dd(Ruang::all());
-    	return view('halaman_awal');
+    	return view('halaman_awal',[
+            'post'  => Posting::orderBy('waktu','desc')->limit(5)->get(),
+            'prak'  => praktikum::get()
+        ]);
+    }
+    public function berita($id)
+    {
+        $lain       = Posting::where('id','<>',$id)->get();
+        return view('berita',[
+            'post'  => Posting::find($id),
+            'lain'  => $lain
+        ]);
     }
     public function login(Request $request)
     {
         $user   = session('user');
-        $nama   = Peminjam::where('user',$user)->get();
-    	return view('login',['alert'=>'','session'=>$user]);
+        $nama   = Peminjam::where('username',$user)->get();
+        return view('login',['alert'=>'','session'=>$user]);
     }
     public function ya()
     {
-    	// $coba = DB::table('peminjam')->get();
-        $peminjam = Peminjam::all();
-       
-    	return view('ya',['peminjam'=>$peminjam]);
+    	return view('ya');
     }
     public function proses_login(Request $request)
     {
@@ -38,29 +48,43 @@ class utamaController extends Controller
     }
     public function hapus($id)
     {
-        
+
     }
     public function proLogin(Request $request)
     {
         $login = array(
-            'user' => $request->input('username'),
-            'password'=>$request->input('password') );
+            'username'  =>  $request->input('username'),
+            'password'  =>  md5(md5($request->input('password'))));
         $peminjam = Peminjam::where($login)->get();
-        if($peminjam->count()>0){
+        // dd(count($peminjam));
+        if(count($peminjam) == 1){
             session(['user'=>$request->input('username')]);
+            $cek = Peminjam::where($login)->update([
+                'status' => 'online'
+            ]);
             return redirect('/user');
-            // dd($peminjam);
+
         }else{
-            // return redirect('home/login',['alert'=>'<div class="alert alert-info">Password salah</div>']);
-            return view('login',['alert'=>'<div class="alert alert-danger"><center>Gagal Masuk</center></div>']);
+            return redirect('/home/login')->with('login', 'Username atau Password Salah');
         }
     }
     public function kegiatan()
     {
-        return view('kegiatan');
+        // $pinjam     = Peminjam::first();
+        $ruang  = Ruang::where('id_peminjam','ADMIN')->where('status','aktif')->get();
+        $pinjam = viewRuang::get();
+        return view('kegiatan',[
+          'pinjam' =>$pinjam,
+          'prak'      =>  $ruang
+        ]);
     }
     public function alat()
     {
-        return view('alat');
+        $alat       = Alat::get();
+        return view('alat',
+        [
+          'alat' => $alat
+        ]
+      );
     }
 }

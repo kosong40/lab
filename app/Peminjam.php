@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Peminjam extends Model
 {
-    protected $table = 'user';
+    // protected $table = 'user';
+    protected $table = 'peminjam';
     public $timestamps = false;
-    protected $guarded = [];
+    protected $fillable = ['nama','username','passowrd','no_hp','alamat'];
 }
